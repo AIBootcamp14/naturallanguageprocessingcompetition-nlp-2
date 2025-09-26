@@ -293,7 +293,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # Wandb
-wandb/*
+*/wandb/
 
 # models
 *.pt
@@ -307,5 +307,7 @@ wandb/*
 
 # baseline code
 baseline.ipynb
+baseline_code/
+code/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,visualstudiocode,windows,macos,linux,git

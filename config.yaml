@@ -1,0 +1,58 @@
+general:
+  data_path: ./data/
+  model_name: paust/pko-t5-large
+  output_dir: ./
+inference:
+  batch_size: 8
+  ckt_path: ./checkpoint-7008
+  early_stopping: true
+  generate_max_length: 90
+  no_repeat_ngram_size: 2
+  num_beams: 4
+  remove_tokens:
+  - <usr>
+  - </s>
+  - <pad>
+  result_path: ./prediction/
+tokenizer:
+  decoder_max_len: 90
+  encoder_max_len: 530
+  eos_token: </s>
+  special_tokens:
+  - '#Person1#'
+  - '#Person2#'
+  - '#Person3#'
+  - '#PhoneNumber#'
+  - '#Address#'
+  - '#PassportNumber#'
+training:
+  do_eval: true
+  do_train: false
+  early_stopping_patience: 3
+  early_stopping_threshold: 0.001
+  evaluation_strategy: epoch
+  fp16: true
+  generation_max_length: 90
+  gradient_accumulation_steps: 4
+  gradient_checkpointing: true
+  learning_rate: 1.0e-05
+  load_best_model_at_end: true
+  logging_dir: ./logs
+  logging_strategy: epoch
+  lr_scheduler_type: cosine
+  num_train_epochs: 20
+  optim: adamw_torch
+  overwrite_output_dir: true
+  per_device_eval_batch_size: 32
+  per_device_train_batch_size: 4
+  predict_with_generate: true
+  report_to: none
+  save_strategy: epoch
+  save_total_limit: 5
+  seed: 42
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+wandb:
+  entity: wandb_repo
+  name: run_name
+  project: project_name

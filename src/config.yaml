@@ -1,0 +1,77 @@
+general:
+  data_path: /workspace/NLP_Dialogue_Summarization/data/
+  model_name: digit82/kobart-summarization
+  output_dir: /workspace/NLP_Dialogue_Summarization/output/model
+inference:
+  batch_size: 32
+  ckt_path: /workspace/NLP_Dialogue_Summarization/output/model
+  early_stopping: true
+  generate_max_length: 100
+  no_repeat_ngram_size: 3  # 2 → 3 (ROUGE-2 향상)
+  num_beams: 6  # 4 → 6 (더 나은 후보 탐색)
+  length_penalty: 1.2  # 추가! (적절한 길이 유도)
+  min_length: 20  # 추가! (너무 짧은 요약 방지)
+  repetition_penalty: 1.2  # 추가! (반복 억제)
+  remove_tokens:
+  - <usr>
+  - <s>
+  - </s>
+  - <pad>
+  - <topic>
+  - </topic>
+  - <dialogue>
+  - </dialogue>
+  result_path: /workspace/NLP_Dialogue_Summarization/output/submission/
+tokenizer:
+  bos_token: <s>
+  decoder_max_len: 90
+  encoder_max_len: 529
+  eos_token: </s>
+  special_tokens:
+  - '#Person1#'
+  - '#Person2#'
+  - '#Person3#'
+  - '#PhoneNumber#'
+  - '#Address#'
+  - '#PassportNumber#'
+  - '#Email#'
+  - '#Date#'
+  - '#Time#'
+  - '#Number#'
+  - '#Money#'
+  - '#Organization#'
+  - '#Location#'
+  - '<topic>'
+  - '</topic>'
+  - '<dialogue>'
+  - '</dialogue>'
+training:
+  do_eval: true
+  do_train: true
+  early_stopping_patience: 6
+  early_stopping_threshold: 0.001
+  evaluation_strategy: epoch
+  fp16: true
+  generation_max_length: 100
+  gradient_accumulation_steps: 1
+  learning_rate: 1.0e-05
+  load_best_model_at_end: true
+  logging_dir: ./logs
+  logging_strategy: epoch
+  lr_scheduler_type: cosine
+  num_train_epochs: 20
+  optim: adamw_torch
+  overwrite_output_dir: true
+  per_device_eval_batch_size: 32
+  per_device_train_batch_size: 50
+  predict_with_generate: true
+  report_to: wandb
+  save_strategy: epoch
+  save_total_limit: 5
+  seed: 42
+  warmup_ratio: 0.1
+  weight_decay: 0.01
+wandb:
+  entity: riicoseo-db
+  name: test_run_1
+  project: nlp_dialogue_summarization

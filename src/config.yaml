@@ -48,7 +48,7 @@ tokenizer:
 training:
   do_eval: true
   do_train: true
-  early_stopping_patience: 6
+  early_stopping_patience: 10
   early_stopping_threshold: 0.001
   evaluation_strategy: epoch
   fp16: true
@@ -59,7 +59,7 @@ training:
   logging_dir: ./logs
   logging_strategy: epoch
   lr_scheduler_type: cosine
-  num_train_epochs: 20
+  num_train_epochs: 30
   optim: adamw_torch
   overwrite_output_dir: true
   per_device_eval_batch_size: 32

@@ -60,7 +60,7 @@ def load_trainer_for_train(config,generate_model,tokenizer,train_inputs_dataset,
                 lr_scheduler_type=config['training']['lr_scheduler_type'],
                 optim =config['training']['optim'],
                 gradient_accumulation_steps=config['training']['gradient_accumulation_steps'],
-                evaluation_strategy=config['training']['evaluation_strategy'], # evaluation strategy to adopt during training
+                eval_strategy=config['training']['evaluation_strategy'], # evaluation strategy to adopt during training
                 save_strategy =config['training']['save_strategy'],
                 save_total_limit=config['training']['save_total_limit'], # number of total save model.
                 fp16=config['training']['fp16'],

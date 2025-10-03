@@ -28,13 +28,18 @@ def run_train(config):
     trainer = load_trainer_for_train(config, generate_model,tokenizer,train_inputs_dataset,val_inputs_dataset)
     trainer.train() 
     
-    
+    # 모델 및 토크나이저 저장
+    trainer.save_model(config['general']['output_dir']+"/best_model")   
+    tokenizer.save_pretrained(config['general']['output_dir']+"/best_model")
+
+
     
     
 def run_infer(config):
-    ckt_path ="/workspace/NLP_Dialogue_Summarization/output/model/"
-    ckt_name = "checkpoint-6200"
-    config['inference']['ckt_path'] = ckt_path + ckt_name
+    ckt_path ="/workspace/NLP_Dialogue_Summarization/output/model/best_model"
+    # ckt_name = "checkpoint-6200"
+    # config['inference']['ckt_path'] = ckt_path + ckt_name
+    config['inference']['ckt_path'] = ckt_path
     
     return inference(config)
 
@@ -56,6 +61,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    clean_gpu_memory()
+    main()
+    # clean_gpu_memory()
     

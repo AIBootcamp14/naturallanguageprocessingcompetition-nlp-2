@@ -64,6 +64,7 @@ class Preprocess:
             "<topic> " + dataset['topic'].astype(str) + " </topic>\n"
             + "<dialogue> " + dataset['dialogue'].astype(str) + " </dialogue>"
         )
+        print("topic 들어갔는지 여부 샘플 : "+encoder_input[0])
         
         if is_test:
             decoder_input = [self.bos_token] * len(dataset)
@@ -84,13 +85,13 @@ def prepare_train_dataset(config, preprocessor, data_path, tokenizer):
     train_data = preprocessor.make_set_as_df(train_file_path)
     val_data = preprocessor.make_set_as_df(val_file_path)
 
-    print('-'*150)
-    print(f'train_data:\n {train_data["dialogue"][0]}')
-    print(f'train_label:\n {train_data["summary"][0]}')
+    # print('-'*150)
+    # print(f'train_data:\n {train_data["dialogue"][0]}')
+    # print(f'train_label:\n {train_data["summary"][0]}')
 
-    print('-'*150)
-    print(f'val_data:\n {val_data["dialogue"][0]}')
-    print(f'val_label:\n {val_data["summary"][0]}')
+    # print('-'*150)
+    # print(f'val_data:\n {val_data["dialogue"][0]}')
+    # print(f'val_label:\n {val_data["summary"][0]}')
 
     encoder_input_train , decoder_input_train, decoder_output_train = preprocessor.make_input(train_data)
     encoder_input_val , decoder_input_val, decoder_output_val = preprocessor.make_input(val_data)
@@ -123,14 +124,16 @@ def prepare_train_dataset(config, preprocessor, data_path, tokenizer):
 # tokenization 과정까지 진행된 최종적으로 모델에 입력될 데이터를 출력합니다.
 def prepare_test_dataset(config,preprocessor, tokenizer):
 
-    test_file_path = os.path.join(config['general']['data_path'],'test.csv')
+    # test_file_path = os.path.join(config['general']['data_path'],'test.csv')
+    # test_file_path = os.path.join(config['general']['data_path'],'test_topic.csv')
+    test_file_path = os.path.join(config['general']['data_path'],'test_topic_solar.csv')
 
     test_data = preprocessor.make_set_as_df(test_file_path,is_train=False)
     test_id = test_data['fname']
 
-    print('-'*150)
-    print(f'test_data:\n{test_data["dialogue"][0]}')
-    print('-'*150)
+    # print('-'*150)
+    # print(f'test_data:\n{test_data["dialogue"][0]}')
+    # print('-'*150)
 
     encoder_input_test , decoder_input_test = preprocessor.make_input(test_data,is_test=True)
     print('-'*10, 'Load data complete', '-'*10,)

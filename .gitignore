@@ -306,8 +306,10 @@ $RECYCLE.BIN/
 *.zip
 
 # baseline code
-baseline.ipynb
-baseline_code/
-code/
+baseline/*
+code/*
+
+# wandb
+wandb/*
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,visualstudiocode,windows,macos,linux,git

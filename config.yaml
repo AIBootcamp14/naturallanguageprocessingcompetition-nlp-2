@@ -15,8 +15,8 @@ inference:
   - <pad>
   result_path: ./prediction/
 tokenizer:
-  decoder_max_len: 90
-  encoder_max_len: 530
+  decoder_max_len: 150
+  encoder_max_len: 1024
   eos_token: </s>
   special_tokens:
   - '#Person1#'
@@ -26,8 +26,8 @@ tokenizer:
   - '#Address#'
   - '#PassportNumber#'
 training:
-  do_eval: true
-  do_train: true
+  do_eval: false
+  do_train: false
   early_stopping_patience: 3
   early_stopping_threshold: 0.001
   evaluation_strategy: epoch

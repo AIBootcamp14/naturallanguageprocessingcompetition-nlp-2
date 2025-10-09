@@ -308,4 +308,23 @@ wandb/*
 # baseline code
 baseline.ipynb
 
+
+# 학습 체크포인트 폴더
+checkpoint-*
+# 기타 출력/로그 폴더 (만약 있다면)
+./logs
+./prediction/
+
+
+
+
+
+
+
+
+
+
+
+
+
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,visualstudiocode,windows,macos,linux,git

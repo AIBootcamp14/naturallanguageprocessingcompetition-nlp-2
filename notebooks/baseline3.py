@@ -358,7 +358,6 @@ def load_trainer_for_train(
         # 메모리 절약 기능 활성화 (config.yaml에서 값을 가져옴)
         gradient_checkpointing=config['training'].get('gradient_checkpointing', False),
         # PEP 8: eval_strategy로 변경 (버전업에 대비)
-        eval_strategy=config['training']['evaluation_strategy'], 
     )
 
     # Validation loss가 더 이상 개선되지 않을 때 학습을 중단시키는 EarlyStopping 기능

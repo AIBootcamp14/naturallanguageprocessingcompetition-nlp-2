@@ -4,7 +4,7 @@ general:
   output_dir: ./
 inference:
   batch_size: 8
-  ckt_path: ./checkpoint-7008
+  ckt_path: ./checkpoint-10123
   early_stopping: true
   generate_max_length: 90
   no_repeat_ngram_size: 2
@@ -27,7 +27,7 @@ tokenizer:
   - '#PassportNumber#'
 training:
   do_eval: true
-  do_train: false
+  do_train: true
   early_stopping_patience: 3
   early_stopping_threshold: 0.001
   evaluation_strategy: epoch

@@ -293,19 +293,27 @@ $RECYCLE.BIN/
 *.lnk
 
 # Wandb
-wandb/*
+*/wandb/
 
 # models
 *.pt
 
 # csv files
-*.csv
+data/*.csv
+data/clean/denoise/*.csv
 
 # zipfiles
 *.tar.gz
 *.zip
 
 # baseline code
-baseline.ipynb
+baseline/*
+code/*
+
+# wandb
+wandb/*
+
+# note
+data_augmentation_and_pretraining.md
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,visualstudiocode,windows,macos,linux,git

@@ -299,8 +299,7 @@ $RECYCLE.BIN/
 *.pt
 
 # csv files
-data/*.csv
-data/clean/denoise/*.csv
+*.csv
 
 # zipfiles
 *.tar.gz
@@ -312,6 +311,9 @@ code/*
 
 # wandb
 wandb/*
+
+# model
+model/*
 
 # note
 data_augmentation_and_pretraining.md

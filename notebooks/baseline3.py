@@ -777,27 +777,91 @@ def calculate_local_rouge(predicted_df: pd.DataFrame, dev_path: str) -> None:
     print("="*50 + "\n")
 
 
-if __name__ == "__main__":
-    # training/do_train: True인 경우 main 함수 내에서 학습이 진행됨
-    if loaded_config['training']['do_train']:
-        main(loaded_config)
+# if __name__ == "__main__":
+#     # training/do_train: True인 경우 main 함수 내에서 학습이 진행됨
+#     if loaded_config['training']['do_train']:
+#         main(loaded_config)
     
-    # 추론 전 최신 체크포인트를 자동으로 로드하도록 config를 업데이트 (학습을 했을 경우에만 의미 있음)
-    update_inference_path_with_latest_checkpoint(loaded_config)
+#     # 추론 전 최신 체크포인트를 자동으로 로드하도록 config를 업데이트 (학습을 했을 경우에만 의미 있음)
+#     update_inference_path_with_latest_checkpoint(loaded_config)
 
-    # config.yaml의 ckt_path를 사용하지 않고, 수동으로 checkpoint 강제 지정
-    loaded_config['inference']['ckt_path'] = './checkpoint-10123'
-    print(f"\n✅ [최종 강제 설정] 추론 체크포인트: '{loaded_config['inference']['ckt_path']}'")
+#     # config.yaml의 ckt_path를 사용하지 않고, 수동으로 checkpoint 강제 지정
+#     loaded_config['inference']['ckt_path'] = './checkpoint-10123'
+#     print(f"\n✅ [최종 강제 설정] 추론 체크포인트: '{loaded_config['inference']['ckt_path']}'")
     
-    # [핵심 수정] is_final_submission=True로 변경하여 test.csv에 대한 최종 제출 파일을 생성함
-    # is_final_submission=True이면 test.csv를 로드하고, prediction.csv로 저장됨
-    print("\n⭐ ⭐ ⭐ 최종 제출 파일 생성 모드: test.csv로 추론을 시작합니다! ⭐ ⭐ ⭐")
+#     # [핵심 수정] is_final_submission=True로 변경하여 test.csv에 대한 최종 제출 파일을 생성함
+#     # is_final_submission=True이면 test.csv를 로드하고, prediction.csv로 저장됨
+#     print("\n⭐ ⭐ ⭐ 최종 제출 파일 생성 모드: test.csv로 추론을 시작합니다! ⭐ ⭐ ⭐")
     
-    # PEP 8 준수를 위해 변수명에 _output 대신 output 사용
+#     # PEP 8 준수를 위해 변수명에 _output 대신 output 사용
+#     output: pd.DataFrame = inference(loaded_config, is_final_submission=True)
+
+#     print(output.head())
+#     print(f"\n✅ 최종 제출 파일 저장 완료: {loaded_config['inference']['result_path']}/prediction.csv")
+
+#     # dev_data_path: str = os.path.join(loaded_config['general']['data_path'], 'dev.csv')
+#     # calculate_local_rouge(output, dev_data_path) # test.csv 추론 시 로컬 검증은 스킵
+
+# if __name__ == "__main__":
+#     # ----------------------------------------------------------------------
+#     # 🔥 [단축 실행] 훈련을 건너뛰고, 저장된 체크포인트로 바로 추론을 시작합니다.
+#     # ----------------------------------------------------------------------
+#     loaded_config['training']['do_train'] = False # 훈련 건너뛰기
+    
+#     # 💡 [최고점 복원] ckt_path를 최고점 때의 체크포인트인 './checkpoint-10123'로 강제 지정
+#     loaded_config['inference']['ckt_path'] = './checkpoint-10123'
+    
+#     # ⭐ [팀원 설정 적용] 추론 파라미터를 팀원의 우수 설정으로 변경
+#     loaded_config['inference']['generate_max_length'] = 90  # 네 기존 90 유지
+#     loaded_config['inference']['num_beams'] = 6              # 4 → 6
+#     loaded_config['inference']['no_repeat_ngram_size'] = 3   # 2 → 3
+#     loaded_config['inference']['length_penalty'] = 1.2       # 추가
+#     loaded_config['inference']['min_length'] = 20            # 추가
+#     loaded_config['inference']['repetition_penalty'] = 1.2   # 추가
+    
+#     print(f"✅ [최고점 복원] 체크포인트 경로: {loaded_config['inference']['ckt_path']}")
+#     print(f"✅ [팀원 설정 적용] Num Beams: {loaded_config['inference']['num_beams']}, No Repeat Ngram: {loaded_config['inference']['no_repeat_ngram_size']}")
+    
+#     # [핵심] is_final_submission=True로 test.csv에 대한 최종 제출 파일을 생성함
+#     print("\n⭐ ⭐ ⭐ 팀원 설정으로 test.csv 추론 시작! ⭐ ⭐ ⭐")
+    
+#     # inference 함수 내부에서 'test.csv' 파일을 사용하여 추론이 진행됨
+#     output: pd.DataFrame = inference(loaded_config, is_final_submission=True)
+
+#     print(output.head())
+#     output_filename: str = "prediction_final.csv" # 파일 이름 바꿔서 저장해!
+#     print(f"\n✅ 최종 제출 파일 저장 완료: {loaded_config['inference']['result_path']}/{output_filename}")
+
+if __name__ == "__main__":
+    # ----------------------------------------------------------------------
+    # 🔥 [단축 실행] 훈련을 건너뛰고, 저장된 체크포인트로 바로 추론을 시작합니다.
+    # ----------------------------------------------------------------------
+    loaded_config['training']['do_train'] = False # 훈련 건너뛰기
+    
+    # 💡 [최고점 복원] ckt_path를 최고점 때의 체크포인트인 './checkpoint-10123'로 강제 지정
+    loaded_config['inference']['ckt_path'] = './checkpoint-10123/checkpoint-10123'
+    
+    # ⭐ [1단계 실험] no_repeat_ngram_size만 3으로 변경
+    loaded_config['inference']['generate_max_length'] = 90
+    loaded_config['inference']['num_beams'] = 4 # (기존 4 유지)
+    loaded_config['inference']['no_repeat_ngram_size'] = 3  # 2 → 3 🔥
+    loaded_config['inference']['length_penalty'] = 1.0  # (기본값 1.0 유지)
+    loaded_config['inference']['min_length'] = 0  # (기본값 0 유지)
+    loaded_config['inference']['repetition_penalty'] = 1.0  # (기본값 1.0 유지)
+    
+    print(f"✅ [최고점 복원] 체크포인트 경로: {loaded_config['inference']['ckt_path']}")
+    print(f"✅ [팀원 설정 적용] Num Beams: {loaded_config['inference']['num_beams']}, No Repeat Ngram: {loaded_config['inference']['no_repeat_ngram_size']}")
+    
+    # 💡 디버깅 코드 추가: 여기서 설정이 3으로 바뀌었는지 한 번 더 확인
+    print(f"\n[디버그] inference 설정: {loaded_config['inference']}") 
+    
+    # [핵심] is_final_submission=True로 test.csv에 대한 최종 제출 파일을 생성함
+    print("\n⭐ ⭐ ⭐ 1단계 실험 (no_repeat_ngram_size=3) 추론 시작! ⭐ ⭐ ⭐")
+    
+    # inference 함수 내부에서 'test.csv' 파일을 사용하여 추론이 진행됨
+    # 이제 여기서 loaded_config를 넘길 때 'no_repeat_ngram_size': 3이 확실히 전달
     output: pd.DataFrame = inference(loaded_config, is_final_submission=True)
 
     print(output.head())
-    print(f"\n✅ 최종 제출 파일 저장 완료: {loaded_config['inference']['result_path']}/prediction.csv")
-
-    # dev_data_path: str = os.path.join(loaded_config['general']['data_path'], 'dev.csv')
-    # calculate_local_rouge(output, dev_data_path) # test.csv 추론 시 로컬 검증은 스킵
+    output_filename: str = "prediction_step1.csv" # 파일 이름을 1단계용으로 바꿔서 저장
+    print(f"\n✅ 최종 제출 파일 저장 완료: {loaded_config['inference']['result_path']}/{output_filename}")

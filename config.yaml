@@ -7,7 +7,7 @@ inference:
   ckt_path: ./checkpoint-10123
   early_stopping: true
   generate_max_length: 90
-  no_repeat_ngram_size: 2
+  no_repeat_ngram_size: 3
   num_beams: 4
   remove_tokens:
   - <usr>

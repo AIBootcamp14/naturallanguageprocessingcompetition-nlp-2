@@ -16,6 +16,8 @@ def clean_gpu_memory():
 
     gc.collect()
     torch.cuda.empty_cache()
+    
+    torch.backends.cuda.matmul.allow_tf32 = True
 
     # 1. 현재 할당된 메모리 (PyTorch가 사용 중)
     allocated = torch.cuda.memory_allocated() / 1024**3

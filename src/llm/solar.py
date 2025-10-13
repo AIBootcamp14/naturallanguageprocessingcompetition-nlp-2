@@ -54,7 +54,7 @@ def build_prompt(dialogue):
         "2. Extract exactly 1 main topic keyword that best represents the dialogue.\n"
         "3. Output only the keyword, without any explanation or extra text.\n"
         "4. If the topic is unclear, output: unknown\n\n"
-        # 고정 샘플 제공
+        # 고정 샘플 5개 제공 
         f"{samples_block}\n"
         "Dialogue:\n"
         f"{dialogue}\n\n"

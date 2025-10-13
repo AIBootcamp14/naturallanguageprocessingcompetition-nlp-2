@@ -73,77 +73,202 @@ class Preprocess:
             decoder_input = dataset['summary'].apply(lambda x: self.bos_token + str(x))
             decoder_output = dataset['summary'].apply(lambda x: str(x) + self.eos_token)
             return encoder_input.tolist(), decoder_input.tolist(), decoder_output.tolist()
-
+        
+        # BART 모델의 입력, 출력 형태를 맞추기 위해 전처리를 진행합니다.
+    def make_input_t5(self, dataset,is_test = False):
+        """T5 모델용 입력 생성 - 간소화 버전"""
+        # Encoder input: "summarize: " prefix + dialogue
+        # encoder_input = (
+        #     "summarize: "
+        #     + dataset['dialogue'].astype(str)
+        # )
+        
+        # Topic 정보는 dialogue 앞에 자연스럽게 삽입
+        # encoder_input = (
+        #     "summarize: 주제: " + dataset['topic'].astype(str) + " "
+        #     + dataset['dialogue'].astype(str)
+        # )
+        encoder_input = (
+        "summarize: <topic>" + dataset['topic'].astype(str) + "</topic> "
+        + dataset['dialogue'].astype(str)
+        )
+        
+        print("="*80)
+        print("Encoder Input 샘플:")
+        print(encoder_input.iloc[0][:300])
+        print("="*80)
+        
+        if is_test:
+            return encoder_input.tolist(), None
+        else:
+            # Labels: 요약문 (EOS 토큰 제거 - T5가 자동 추가)
+            labels = dataset['summary'].astype(str)
+            
+            print("Labels 샘플:")
+            print(labels.iloc[0])
+            print("="*80)
+            
+            return encoder_input.tolist(), labels.tolist()
 
 
 # tokenization 과정까지 진행된 최종적으로 모델에 입력될 데이터를 출력합니다.
 def prepare_train_dataset(config, preprocessor, data_path, tokenizer):
-    train_file_path = os.path.join(data_path,'train.csv')
-    val_file_path = os.path.join(data_path,'dev.csv')
+    """T5용 데이터셋 준비 - 간소화 버전"""
+    
+    train_file_path = os.path.join(data_path, 'train.csv')
+    val_file_path = os.path.join(data_path, 'dev.csv')
 
-    # train, validation에 대해 각각 데이터프레임을 구축합니다.
+    # 데이터 로드
     train_data = preprocessor.make_set_as_df(train_file_path)
     val_data = preprocessor.make_set_as_df(val_file_path)
+    
+    print(f"Train 데이터 크기: {len(train_data)}")
+    print(f"Validation 데이터 크기: {len(val_data)}")
 
-    # print('-'*150)
-    # print(f'train_data:\n {train_data["dialogue"][0]}')
-    # print(f'train_label:\n {train_data["summary"][0]}')
+    # T5 입력 생성 (decoder_input 제거)
+    encoder_input_train, labels_train = preprocessor.make_input_t5(train_data)
+    encoder_input_val, labels_val = preprocessor.make_input_t5(val_data)
+    
+    print('-'*10, 'Load data complete', '-'*10)
 
-    # print('-'*150)
-    # print(f'val_data:\n {val_data["dialogue"][0]}')
-    # print(f'val_label:\n {val_data["summary"][0]}')
+    # Tokenization
+    tokenized_encoder_train = tokenizer(
+        encoder_input_train,
+        return_tensors="pt",
+        padding=True,
+        truncation=True,
+        max_length=config['tokenizer']['encoder_max_len']
+    )
+    
+    tokenized_labels_train = tokenizer(
+        labels_train,
+        return_tensors="pt",
+        padding=True,
+        truncation=True,
+        max_length=config['tokenizer']['decoder_max_len']
+    )
+    
+    # Validation tokenization
+    tokenized_encoder_val = tokenizer(
+        encoder_input_val,
+        return_tensors="pt",
+        padding=True,
+        truncation=True,
+        max_length=config['tokenizer']['encoder_max_len']
+    )
+    
+    tokenized_labels_val = tokenizer(
+        labels_val,
+        return_tensors="pt",
+        padding=True,
+        truncation=True,
+        max_length=config['tokenizer']['decoder_max_len']
+    )
 
-    encoder_input_train , decoder_input_train, decoder_output_train = preprocessor.make_input(train_data)
-    encoder_input_val , decoder_input_val, decoder_output_val = preprocessor.make_input(val_data)
-    print('-'*10, 'Load data complete', '-'*10,)
+    # Dataset 생성 (동일한 클래스 사용)
+    train_dataset = DatasetForTrain(
+        tokenized_encoder_train,
+        tokenized_labels_train,
+        len(encoder_input_train),
+        tokenizer.pad_token_id  # ← 추가!
+    )
+    
+    val_dataset = DatasetForTrain(
+        tokenized_encoder_val,
+        tokenized_labels_val,
+        len(encoder_input_val),
+        tokenizer.pad_token_id  # ← 추가!
+    )
 
-    tokenized_encoder_inputs = tokenizer(encoder_input_train, return_tensors="pt", padding=True,
-                            add_special_tokens=True, truncation=True, max_length=config['tokenizer']['encoder_max_len'], return_token_type_ids=False)
-    tokenized_decoder_inputs = tokenizer(decoder_input_train, return_tensors="pt", padding=True,
-                        add_special_tokens=True, truncation=True, max_length=config['tokenizer']['decoder_max_len'], return_token_type_ids=False)
-    tokenized_decoder_ouputs = tokenizer(decoder_output_train, return_tensors="pt", padding=True,
-                        add_special_tokens=True, truncation=True, max_length=config['tokenizer']['decoder_max_len'], return_token_type_ids=False)
+    print('-'*10, 'Make dataset complete', '-'*10)
+    
+    # 샘플 확인
+    sample = train_dataset[0]
+    print("\nDataset 샘플 확인:")
+    print(f"input_ids shape: {sample['input_ids'].shape}")
+    print(f"labels shape: {sample['labels'].shape}")
+    # ✅ -100 포함 여부 (토치 방식)
+    has_neg100 = (sample['labels'] == -100).any().item()
+    print(f"Labels에 -100 포함 여부: {has_neg100}")
 
-    train_inputs_dataset = DatasetForTrain(tokenized_encoder_inputs, tokenized_decoder_inputs, tokenized_decoder_ouputs,len(encoder_input_train))
-
-    val_tokenized_encoder_inputs = tokenizer(encoder_input_val, return_tensors="pt", padding=True,
-                        add_special_tokens=True, truncation=True, max_length=config['tokenizer']['encoder_max_len'], return_token_type_ids=False)
-    val_tokenized_decoder_inputs = tokenizer(decoder_input_val, return_tensors="pt", padding=True,
-                        add_special_tokens=True, truncation=True, max_length=config['tokenizer']['decoder_max_len'], return_token_type_ids=False)
-    val_tokenized_decoder_ouputs = tokenizer(decoder_output_val, return_tensors="pt", padding=True,
-                        add_special_tokens=True, truncation=True, max_length=config['tokenizer']['decoder_max_len'], return_token_type_ids=False)
-
-    val_inputs_dataset = DatasetForVal(val_tokenized_encoder_inputs, val_tokenized_decoder_inputs, val_tokenized_decoder_ouputs,len(encoder_input_val))
-
-    print('-'*10, 'Make dataset complete', '-'*10,)
-    return train_inputs_dataset, val_inputs_dataset
+    # ✅ -100이 아닌 값 개수
+    num_non_ignored = (sample['labels'] != -100).sum().item()
+    print(f"Labels 중 -100이 아닌 값 개수: {num_non_ignored}")
+    
+    return train_dataset, val_dataset
 
 
 
 
 # tokenization 과정까지 진행된 최종적으로 모델에 입력될 데이터를 출력합니다.
-def prepare_test_dataset(config,preprocessor, tokenizer):
+# def prepare_test_dataset(config,preprocessor, tokenizer):
 
-    # test_file_path = os.path.join(config['general']['data_path'],'test.csv')
-    # test_file_path = os.path.join(config['general']['data_path'],'test_topic.csv')
-    test_file_path = os.path.join(config['general']['data_path'],'test_topic_solar.csv')
+#     # test_file_path = os.path.join(config['general']['data_path'],'test.csv')
+#     # test_file_path = os.path.join(config['general']['data_path'],'test_topic.csv')
+#     test_file_path = os.path.join(config['general']['data_path'],'test_topic_solar.csv')
 
-    test_data = preprocessor.make_set_as_df(test_file_path,is_train=False)
+#     test_data = preprocessor.make_set_as_df(test_file_path,is_train=False)
+#     test_id = test_data['fname']
+
+#     # print('-'*150)
+#     # print(f'test_data:\n{test_data["dialogue"][0]}')
+#     # print('-'*150)
+
+#     # encoder_input_test , decoder_input_test = preprocessor.make_input(test_data,is_test=True)
+#     encoder_input_test , decoder_input_test = preprocessor.make_input_t5(test_data,is_test=True)
+#     print('-'*10, 'Load data complete', '-'*10,)
+
+#     test_tokenized_encoder_inputs = tokenizer(encoder_input_test, return_tensors="pt", padding=True,
+#                     add_special_tokens=True, truncation=True, max_length=config['tokenizer']['encoder_max_len'], return_token_type_ids=False,)
+#     test_tokenized_decoder_inputs = tokenizer(decoder_input_test, return_tensors="pt", padding=True,
+#                     add_special_tokens=True, truncation=True, max_length=config['tokenizer']['decoder_max_len'], return_token_type_ids=False,)
+
+#     test_encoder_inputs_dataset = DatasetForInference(test_tokenized_encoder_inputs, test_id, len(encoder_input_test))
+#     print('-'*10, 'Make dataset complete', '-'*10,)
+
+#     return test_data, test_encoder_inputs_dataset
+
+
+def prepare_test_dataset(config, preprocessor, tokenizer):
+    """T5용 테스트 데이터셋 준비 - train 스타일에 맞춘 간소화 버전"""
+    
+    # 테스트 경로 (현재 사용 중인 파일 유지)
+    test_file_path = os.path.join(config['general']['data_path'], 'test_topic_solar.csv')
+
+    # 데이터 로드
+    test_data = preprocessor.make_set_as_df(test_file_path, is_train=False)
     test_id = test_data['fname']
+    print(f"Test 데이터 크기: {len(test_data)}")
 
-    # print('-'*150)
-    # print(f'test_data:\n{test_data["dialogue"][0]}')
-    # print('-'*150)
+    # T5 입력 생성: 테스트는 인코더 입력만 사용 (디코더 입력/라벨 불필요)
+    # preprocessor가 (encoder, decoder) 튜플을 반환한다면 decoder는 무시
+    encoder_input_test, _ = preprocessor.make_input_t5(test_data, is_test=True)
 
-    encoder_input_test , decoder_input_test = preprocessor.make_input(test_data,is_test=True)
-    print('-'*10, 'Load data complete', '-'*10,)
+    print('-'*10, 'Load data complete', '-'*10)
 
-    test_tokenized_encoder_inputs = tokenizer(encoder_input_test, return_tensors="pt", padding=True,
-                    add_special_tokens=True, truncation=True, max_length=config['tokenizer']['encoder_max_len'], return_token_type_ids=False,)
-    test_tokenized_decoder_inputs = tokenizer(decoder_input_test, return_tensors="pt", padding=True,
-                    add_special_tokens=True, truncation=True, max_length=config['tokenizer']['decoder_max_len'], return_token_type_ids=False,)
+    # Tokenization (인코더 입력만)
+    tokenized_encoder_test = tokenizer(
+        encoder_input_test,
+        return_tensors="pt",
+        padding=True,
+        truncation=True,
+        max_length=config['tokenizer']['encoder_max_len']
+    )
 
-    test_encoder_inputs_dataset = DatasetForInference(test_tokenized_encoder_inputs, test_id, len(encoder_input_test))
-    print('-'*10, 'Make dataset complete', '-'*10,)
+    # Inference용 Dataset 생성 (train과 동일한 텐서 형태 유지)
+    test_encoder_inputs_dataset = DatasetForInference(
+        tokenized_encoder_test,
+        test_id,
+        len(encoder_input_test)
+    )
+
+    print('-'*10, 'Make dataset complete', '-'*10)
+
+    # 샘플 확인
+    sample = test_encoder_inputs_dataset[0]
+    print("\n[TEST Dataset 샘플 확인]")
+    print(f"input_ids shape: {sample['input_ids'].shape}")
+    if 'attention_mask' in sample:
+        print(f"attention_mask shape: {sample['attention_mask'].shape}")
 
     return test_data, test_encoder_inputs_dataset

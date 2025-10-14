@@ -33,6 +33,13 @@ def inference(config):
                             early_stopping=config['inference']['early_stopping'],
                             max_length=config['inference']['generate_max_length'],
                             num_beams=config['inference']['num_beams'],
+                            
+                            temperature=1.0,  # 0.8~1.0 사이 권장
+                            do_sample=False,  # beam search 사용 시 False
+                            repetition_penalty=2.5,
+                            
+                            num_beam_groups=config['inference'].get('num_beam_groups', 1),  # 기본값 1
+                            diversity_penalty=config['inference'].get('diversity_penalty', 0.0),  # 기본값 0
                         )
             for ids in generated_ids:
                 result = tokenizer.decode(ids)

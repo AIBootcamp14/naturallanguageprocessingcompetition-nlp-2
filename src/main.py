@@ -13,11 +13,23 @@ from src.data.preprocess.preprocess import prepare_test_dataset, prepare_train_d
 
 CONFIG_PATH = "/workspace/NLP_Dialogue_Summarization/src/config.yaml"
 
+
 def run_train(config):
     
     clean_gpu_memory()
     
     device = torch.device('cuda:0' if torch.cuda.is_available()  else 'cpu')
+    
+    # -------------자동으로 최신 체크포인트 찾기----------------------
+    # resume_from = find_latest_checkpoint(config['general']['output_dir'])
+    
+    # if resume_from:
+    #     print(f"🔄 체크포인트 발견! 재개합니다: {resume_from}")
+    #     user_input = input("계속하시겠습니까? (y/n): ")
+    #     if user_input.lower() != 'y':
+    #         resume_from = None
+    # -------------자동으로 최신 체크포인트 찾기----------------------        
+            
     generate_model , tokenizer = load_tokenizer_and_model_for_train(config,device)
     
     preprocessor = Preprocess(config['tokenizer']['bos_token'], config['tokenizer']['eos_token']) 
@@ -36,7 +48,11 @@ def run_train(config):
     
     
 def run_infer(config):
-    ckt_path ="/workspace/NLP_Dialogue_Summarization/output/model/best_model"
+    
+    clean_gpu_memory()
+    
+    # ckt_path ="/workspace/NLP_Dialogue_Summarization/output/model/best_model"
+    ckt_path ="/workspace/NLP_Dialogue_Summarization/output/model/3.best_model_training_config"
     # ckt_name = "checkpoint-6200"
     # config['inference']['ckt_path'] = ckt_path + ckt_name
     config['inference']['ckt_path'] = ckt_path
@@ -57,10 +73,44 @@ def main():
         run_train(config)
     else:
         run_infer(config)    
+        
+        
+def find_invalid_topics(df, max_topic_len: int = 30, min_confidence: float = 0.7):
+    """
+    길이가 너무 긴 topic 또는 confidence가 낮은 데이터를 찾아냄.
 
+    Args:
+        df (pd.DataFrame): fname, dialogue, topic, topic_confidence 컬럼을 포함한 데이터프레임
+        max_topic_len (int): topic 글자 수 제한 기준 (기본 15자 초과 시 경고)
+        min_confidence (float): 최소 confidence 기준 (기본 0.7 미만 시 경고)
+
+    Returns:
+        pd.DataFrame: 조건에 해당하는 행만 반환
+    """
+    # 문자열로 안전 변환
+    df['topic'] = df['topic'].astype(str)
+    df['topic_confidence'] = df['topic_confidence'].astype(float)
+
+    # 조건 설정
+    too_long = df['topic'].apply(lambda x: len(x) > max_topic_len)
+    low_conf = df['topic_confidence'] < min_confidence
+
+    # 필터링
+    invalid_df = df[too_long | low_conf].copy()
+
+    print(f"⚠️ 총 {len(invalid_df)}개의 비정상 topic 탐지됨")
+    print(f" - 길이 초과: {(too_long).sum()}개")
+    print(f" - confidence < {min_confidence}: {(low_conf).sum()}개\n")
+
+    return invalid_df 
 
 
 if __name__ == "__main__":
     main()
     # clean_gpu_memory()
     
+    # =============== 제출 파일 검증! =================
+    df = pd.read_csv("/workspace/NLP_Dialogue_Summarization/data/test_topic_solar.csv")
+    invalid_topics = find_invalid_topics(df, max_topic_len=20, min_confidence=0.7)
+    print(invalid_topics[['fname', 'topic', 'topic_confidence']].head())
+    # =============== 제출 파일 검증! =================

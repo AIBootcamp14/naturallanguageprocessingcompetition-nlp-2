@@ -405,17 +405,7 @@ test_43,"#Person1#: 벌써 지루한 거야?
 #Person2#: 아이팟하고 헤드폰 챙겼어. 음악 좀 들어도 괜찮을까? 
 #Person1#: 그건 예의가 아닐걸. 내 가방에 옛날 신문 몇 개 있을지도 몰라. 그거 읽어볼래? 거기 퍼즐 같은 게임 섹션도 있어. 그거면 좀 바쁘게 지낼 수 있을 거야. 
 #Person2#: 퍼즐 싫어해. 신문에 만화 섹션도 있어? 
-#Person1#: 아마 있을 거야. 이제 조용히 해줘! 다른 사람이 올라서 말하고 있어. 이분 말은 정말 잘 들어야 해. 자선 단체의 수장이거든.","연설 참석
-</think>
-
-Okay, let's tackle this query. The user provided a dialogue and wants me to extract the main topic keyword. Let me read through the conversation carefully.
-
-Person1 and Person2 are at some event where there's a speech. Person2 is bored, and Person1 explains they need to stay because they work for the Daily News, have to take notes, and do interviews. Person2 mentions having an iPod but is told it's impolite. They discuss using old newspapers with puzzles or comics. The speaker is the head of a charity.
-
-The key elements here are the event with a speech, the need to attend for work (journalism), and the charity leader speaking. The main topic isn't about shopping, interviews, or travel. It's centered around attending a speech or event. The sample topics like ""저녁 초대"" or ""면접 준비"" are specific actions. Here, the core is the event attendance, specifically a speech. The charity aspect is part of the context but not the main action. The main activity is being present at the speech. So the keyword should reflect attending a speech or event. Looking at the samples, they use concise terms. ""연설 참석"" seems accurate, combining the speech and attendance. I'll check if there's a better term, but ""연설 참석"" fits best.
-</think>
-
-연설 참석",1.0
+#Person1#: 아마 있을 거야. 이제 조용히 해줘! 다른 사람이 올라서 말하고 있어. 이분 말은 정말 잘 들어야 해. 자선 단체의 수장이거든.",연설 참석,1.0
 test_44,"#Person1#: 사라, 이사 갈 생각 해본 적 있어? 
 #Person2#: 생각해봤는데, 지금은 남편이랑 저랑 그럴 여유가 없어. 
 #Person1#: 회사 근처에 집을 사는 게 비쌀 수 있는데, 더 저렴한 집을 찾는 방법도 있어. 
@@ -1664,11 +1654,7 @@ test_171,"#Person1#: 다음 주 며칠 동안 런던에 가야 하는데, 같이
 #Person1#: 그리고 내가 운전해야지. 내가 운전하는 거 별로 좋아하지 않는 거 알잖아. 난 기차에 앉아 있는 게 훨씬 더 편하더라.
 #Person2#: 뭐가 더 비싸니?
 #Person1#: 음, 당연히 기차가 더 비싸지만, 훨씬 더 빨리 가. 근데 이 얘기 하다 보면 늘 서로 의견이 다르더라. 넌 자동차 좋아하고, 난 기차가 좋잖아.
-#Person2#: 그럼, 고속버스 타볼 생각은 해봤어?","런던 여행 교통수단 논의
-
-(Note: Based on the instructions, I should extract only the main topic keyword without explanation. However, the dialogue revolves around discussing transportation options for a London trip - train vs car vs bus. The most concise primary keyword would be:)
-
-교통수단 선택",1.0
+#Person2#: 그럼, 고속버스 타볼 생각은 해봤어?",런던 여행 교통수단 논의,1.0
 test_172,"#Person1#: 톰, 점심 잘 먹었어?
 #Person2#: 아, 별로였어. 정말 마음에 안 들었어.
 #Person1#: 무슨 일이 있었어?
@@ -2247,7 +2233,7 @@ test_234,"#Person1#: 안녕하세요, 대학 라디오에서 방송하는 Ann입
 #Person2#: 이번 해는 저희 최대 참가자 수입니다. 1200명의 자전거 타는 사람들이 등록했어요. 
 #Person1#: 자전거 타는 사람들이 출발할 때 길을 막지는 않겠죠? 
 #Person2#: 걱정 마세요, 이러한 문제를 피하기 위해 단계적 출발을 도입했어요. 첫 그룹은 오전 7시에 Ottawa에서 출발할 거예요. 
-#Person1#: 감사합니다, Robin. 이제 대학 출발선으로 내려가 볼게요.",mountain lake cycle tour,1.0
+#Person1#: 감사합니다, Robin. 이제 대학 출발선으로 내려가 볼게요.",자전거 투어 중계,1.0
 test_235,"#Person1#: 뭐 마실 거 드릴까요? 
 #Person2#: 좋아요, 근데 제가 술을 많이 마시진 않아서 뭘 주문할지 모르겠네요. 
 #Person1#: 그러면 아페리티프 어떠세요? 
@@ -3375,32 +3361,7 @@ test_354,"#Person1#: 있잖아, Jim, 저녁 먹고 나서 맥주 한잔 할까?
 #Person1#: 괜찮다! Mary랑 Sally 자주 가서 탁구 친다던데, 같이 하면 좋겠다. 
 #Person2#: 좋아! 만약 그들이 괜찮다면, 같이 춤추러 가자고 해도 좋을 것 같아. 그거 운동도 되고 재미있잖아. 
 #Person1#: 좋아, 지금 가자. 
-#Person2#: 그래, 알겠어.","저녁 계획 변경
-
-(Note: Based on the dialogue, the main topic revolves around changing evening plans from drinking beer to more active alternatives like going to the gym, playing table tennis, or dancing. However, since the instructions require exactly 1 main topic keyword and the most concise representation, the best single keyword would be:
-
-체육관
-
-But acknowledging the broader context of re-planning evening activities, a more comprehensive single keyword could be:
-
-저녁 활동
-
-However, following strict instructions for a single primary keyword and considering the dialogue's core focus on shifting plans toward physical activities, the most representative single keyword is:
-
-운동 계획
-
-Yet to strictly adhere to the format and provide the most precise single keyword reflecting the dialogue's essence:
-
-체육관
-
-But reviewing again, the dialogue's central theme is about changing evening plans rather than the gym itself. Therefore, the most accurate single keyword representing the main topic is:
-
-저녁 계획
-
-This best encapsulates the dialogue's focus on modifying evening activities.) 
-
-Final answer per instructions (single keyword without explanation):
-저녁 계획",1.0
+#Person2#: 그래, 알겠어.",저녁 계획,1.0
 test_355,"#Person1#: 여기 데려다줘서 고마워. 우리 뭐 시킬까?
 #Person2#: 음, 다 맛있어 보여. 새우찜 어때?
 #Person1#: 진짜? 솔직히 난 닭발이 더 좋아.

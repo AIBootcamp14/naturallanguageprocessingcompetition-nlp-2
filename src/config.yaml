@@ -1,17 +1,19 @@
 general:
   data_path: /workspace/NLP_Dialogue_Summarization/data/
-  model_name: digit82/kobart-summarization
+  model_name: paust/pko-t5-large
   output_dir: /workspace/NLP_Dialogue_Summarization/output/model
 inference:
-  batch_size: 32
+  batch_size: 18
   ckt_path: /workspace/NLP_Dialogue_Summarization/output/model
   early_stopping: true
-  generate_max_length: 100
-  no_repeat_ngram_size: 3  # 2 → 3 (ROUGE-2 향상)
-  num_beams: 6  # 4 → 6 (더 나은 후보 탐색)
+  generate_max_length: 96
+  min_length: 25  # 추가! (너무 짧은 요약 방지)
+  no_repeat_ngram_size: 4  # 2 → 3 → 4 (ROUGE-2 향상)
+  num_beams: 6  # 4 → 6 → 8 (더 나은 후보 탐색)
   length_penalty: 1.2  # 추가! (적절한 길이 유도)
-  min_length: 20  # 추가! (너무 짧은 요약 방지)
-  repetition_penalty: 1.2  # 추가! (반복 억제)
+  repetition_penalty: 1.2  # 추가! (반복 억제) 1 → 1.2 (최고점) → 한번 더 2.0 으로 up 시도 → 2.5로 한번 더 억제 시도
+  # num_beam_groups: 4
+  # diversity_penalty: 0.5
   remove_tokens:
   - <usr>
   - <s>
@@ -24,8 +26,8 @@ inference:
   result_path: /workspace/NLP_Dialogue_Summarization/output/submission/
 tokenizer:
   bos_token: <s>
-  decoder_max_len: 90
-  encoder_max_len: 529
+  decoder_max_len: 128      # kobart : 90 → t5:128 → 150
+  encoder_max_len: 768     # kobart : 529 → t5: 768  → 1024
   eos_token: </s>
   special_tokens:
   - '#Person1#'
@@ -49,28 +51,33 @@ training:
   do_eval: true
   do_train: true
   early_stopping_patience: 10
-  early_stopping_threshold: 0.001
+  early_stopping_threshold: 0.0005
   evaluation_strategy: epoch
-  fp16: true
-  generation_max_length: 100
-  gradient_accumulation_steps: 1
-  learning_rate: 1.0e-05
+  fp16: false
+  bf16: true  # t5 권장!
+  generation_max_length: 128  # kobart : 100 → t5:128
+  generation_min_length: 30  #   t5:20 추가 → 30 으로 한번 더 증가 시도
+  gradient_accumulation_steps: 32  # t5: 1 → 2 → 4 → 6 → 8
+  generation_num_beams: 4  # ← 추가! (evaluation 시 beam search)
+  learning_rate: 3.5e-05  #  1.0e-05 에서 T5  3e-5 ~ 1e-4 사이로 변경 권장 
+  label_smoothing_factor: 0.1  # ← 한 줄만 추가!
   load_best_model_at_end: true
   logging_dir: ./logs
   logging_strategy: epoch
-  lr_scheduler_type: cosine
-  num_train_epochs: 30
-  optim: adamw_torch
+  lr_scheduler_type: polynomial  # cosine → polynomial
+  num_train_epochs: 35  #  30 → 50
+  optim: adafactor  # adamw_torch → adafactor (T5 권장!)
   overwrite_output_dir: true
-  per_device_eval_batch_size: 32
-  per_device_train_batch_size: 50
+  per_device_eval_batch_size: 6  #t5 oom 이슈로 32 → 16 하향 
+  per_device_train_batch_size: 3 #t5 oom 이슈로 50 → 30 하향 → 16 으로 하향 → 12 으로 한번 더 하향 → 6
   predict_with_generate: true
   report_to: wandb
   save_strategy: epoch
   save_total_limit: 5
   seed: 42
-  warmup_ratio: 0.1
+  warmup_ratio: 0.05
   weight_decay: 0.01
+  gradient_checkpointing: true  # ← 한 줄 추가!
 wandb:
   entity: riicoseo-db
   name: test_run_1

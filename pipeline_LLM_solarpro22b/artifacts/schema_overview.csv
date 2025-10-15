@@ -1,0 +1,9 @@
+dataset,column,avg_char_len
+train,fname,10.1
+train,dialogue,406.1
+train,summary,85.8
+train,topic,7.5
+dev,fname,6.8
+dev,dialogue,400.1
+dev,summary,81.2
+dev,topic,7.7

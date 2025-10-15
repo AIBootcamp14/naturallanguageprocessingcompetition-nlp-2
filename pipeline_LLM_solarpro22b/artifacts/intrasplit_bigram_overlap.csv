@@ -1,0 +1,3 @@
+pair,overlap_ratio_bigram
+train_dialogue vs train_summary,0.11683461766449318
+dev_dialogue vs dev_summary,0.0829608938547486

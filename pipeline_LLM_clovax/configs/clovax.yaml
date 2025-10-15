@@ -1,0 +1,56 @@
+data:
+  root: data
+  train_file: train.csv
+  test_file: test.csv
+  sample_submission: sample_submission.csv
+
+output:
+  submission_csv: output/submission/clovax_submission.csv
+  detailed_csv: output/model/clovax_generations.csv
+  fewshot_export: output/model/fewshot_examples.jsonl
+
+model:
+  model_id: "naver-hyperclovax/HyperCLOVAX-SEED-Text-Instruct-1.5B"
+  local_dir: /data/ephemeral/home/NLP/src/model/
+  revision: null
+  quant: fp16
+  offline: true
+  device: auto
+  token: ${HF_TOKEN:}
+
+generation:
+  max_new_tokens: 180
+  temperature: 0.2
+  top_p: 0.95
+  repetition_penalty: 1.0
+  do_sample: false
+
+prompt:
+  system: >-
+    당신은 한국어 대화를 간결하게 요약하고 적절한 주제를 분류하는 어시스턴트입니다.
+    대화를 이해한 뒤 2문장 이내의 요약문과 한글 주제 라벨을 JSON 형식으로 반환하세요.
+    요약문은 구체적인 사실을 담아야 하고, 주제는 train.csv에서 사용된 라벨과 톤을 따라야 합니다.
+  user_template: |-
+    아래 대화를 요약하고 주제를 추론하세요. 반드시 JSON만 출력합니다.
+
+    [대화]
+    {dialogue}
+
+    [요구사항]
+    - "summary": 대화의 핵심을 1~2문장으로 자연스럽게 서술
+    - "topic": train.csv의 topic 컬럼 스타일에 맞는 한글 라벨 한 단어 또는 짧은 구
+  fewshot:
+    sample_count: 4
+    topic_round_robin: true
+    seed: 42
+    export_meta: true
+    example_template: |-
+      [예시 입력]
+      {dialogue}
+
+      [예시 출력]
+      {{"summary": "{summary}", "topic": "{topic}"}}
+
+logging:
+  level: INFO
+  use_tqdm: true

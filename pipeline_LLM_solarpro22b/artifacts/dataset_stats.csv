@@ -1,0 +1,3 @@
+dataset,rows,source_col,target_col,missing_source,missing_target,avg_source_chars,avg_target_chars,avg_source_words,avg_target_words,avg_source_sents,avg_target_sents,unique_targets
+train,12457,dialogue,summary,0,0,406.0834871959541,85.78943565866581,84.46447780364454,16.48069358593562,16.258569479007786,1.62045436300875,12456
+dev,499,dialogue,summary,0,0,400.0541082164329,81.2064128256513,83.54108216432866,15.348697394789578,15.895791583166332,1.529058116232465,499

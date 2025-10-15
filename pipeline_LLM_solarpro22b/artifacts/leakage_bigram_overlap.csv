@@ -1,0 +1,3 @@
+metric,overlap_ratio
+train_src vs dev_src bigram overlap,0.3932941633485481
+train_src vs dev_tgt bigram overlap,0.07513966480446928

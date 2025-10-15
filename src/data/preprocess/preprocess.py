@@ -272,3 +272,57 @@ def prepare_test_dataset(config, preprocessor, tokenizer):
         print(f"attention_mask shape: {sample['attention_mask'].shape}")
 
     return test_data, test_encoder_inputs_dataset
+
+
+def make_input_exaone(dataset, is_test=False):
+    example_template = (
+        "### 예시 1:\n"
+        "주제: <topic>연애 상담</topic>\n"
+        "대화: <dialogue>#Person1#: Mary, 존이랑 데이트 어땠어?\n"
+        "#Person2#: ... (중략) ...\n"
+        "#Person1#: 친구가 그래야지.</dialogue>\n"
+        "요약: Mary는 Steve에게 존과의 데이트가 좋았다고 말하며 존에게 감명받았다고 한다. 하지만 존이 아직 연락하지 않아 불안해하고, Steve는 그녀를 위로해준다.\n\n"
+    )
+
+    instruction = (
+        "### Instruction:\n"
+        "다음 일상 대화를 정확하게 요약하세요.\n\n"
+        "**요약 규칙:**\n"
+        "- 대화에 명시된 인물(#Person1#, #Person2# 등)을 그대로 사용하세요.\n"
+        "- 대화에 등장한 장소, 시간, 금액 등을 정확히 포함하세요.\n"
+        "- 대화에서 언급되지 않은 정보는 절대 추가하지 마세요.\n"
+        "- 추측이나 해석을 포함하지 말고 사실만 작성하세요.\n"
+        "- 간결하게 1-2 문장으로 작성하세요.\n\n"
+    )
+
+    texts = []
+    for _, row in dataset.iterrows():
+        if is_test:
+            text = (
+                f"{instruction}"
+                f"{example_template}"
+                f"### 실제 문제:\n"
+                f"주제: <topic>{row['topic']}</topic>\n"
+                f"대화: <dialogue>{row['dialogue']}</dialogue>\n\n"
+                f"### Output:\n"
+            )
+        else:
+            text = (
+                f"{instruction}"
+                f"{example_template}"
+                f"### 실제 문제:\n"
+                f"주제: <topic>{row['topic']}</topic>\n"
+                f"대화: <dialogue>{row['dialogue']}</dialogue>\n\n"
+                f"### Output:\n"
+                f"{row['summary']}"
+            )
+        texts.append(text)
+
+    # (선택) 첫 샘플만 확인
+    if texts:
+        print("="*80)
+        print("Input 샘플:")
+        print(texts[0][:600])
+        print("="*80)
+
+    return texts

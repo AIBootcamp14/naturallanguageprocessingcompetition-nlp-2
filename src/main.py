@@ -8,6 +8,7 @@ from src.model.model_utils import load_tokenizer_and_model_for_train
 from src.data.preprocess.preprocess import Preprocess
 from src.data.dataset import DatasetForTrain, DatasetForVal
 from src.train.train import load_trainer_for_train, compute_metrics
+from src.llm.exaone import load_and_infer_exaone, load_and_train_exaone
 from src.data.dataset import DatasetForInference
 from src.data.preprocess.preprocess import prepare_test_dataset, prepare_train_dataset
 
@@ -60,17 +61,29 @@ def run_infer(config):
     return inference(config)
 
 
+def run_train_exaone(config):
+    clean_gpu_memory()
+    load_and_train_exaone()
+    
+
+def run_infer_exaone(config):
+    clean_gpu_memory()
+    load_and_infer_exaone()
+
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('mode', type=str, choices=["train", "infer"], help='train or infer')
+    parser.add_argument('mode', type=str, choices=["train", "infer", "exaone"], help='train or infer')
     args = parser.parse_args()
     
     config = load_config(CONFIG_PATH)
     mode = args.mode
     
     if mode == "train":
-        run_train(config)
+        # run_train(config)
+        run_train_exaone(config)
+    elif mode == "exaone":
+        run_infer_exaone(config)
     else:
         run_infer(config)    
         

@@ -382,7 +382,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ## 11. 발표 자료
 
-- [프로젝트 발표 슬라이드](https://docs.google.com/presentation/d/1hOjNn1falm06sLyqFpfdF37SkP_zCUD_/)
+- [프로젝트 발표 슬라이드](https://docs.google.com/presentation/d/1n3ZpdBC2U84vmS9k6mGyuqrokve7uZQvnuWrouwvFv4/)
 
 ---
 

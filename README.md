@@ -1,6 +1,12 @@
 # Dialogue Summarization
 
-일상 대화를 바탕으로 요약문을 생성하는 NLP 경진대회 프로젝트
+이 프로젝트는 일상 대화 요약 대회 참가에 사용된 솔루션으로, 컴퓨터 비전 딥러닝 기술들을 효과적으로 조합하 최고 성능을 달성했습니다. 
+
+특히, 모델의 일반화 성능을 극대화하고 최종 예측 정확도를 끌어올리기 위한 앙상블 및 스태킹 기법에 중점을 두어 개발되었습니다.
+
+> **발표 자료:** [Google Slides](https://docs.google.com/presentation/d/1n3ZpdBC2U84vmS9k6mGyuqrokve7uZQvnuWrouwvFv4/)
+
+---
 
 ## 📚 Table of Contents
 - [팀 구성원](#팀-구성원)
@@ -17,10 +23,9 @@
 - [8. 주요 인사이트](#8-주요-인사이트)
 - [9. 실행 가이드](#9-실행-가이드)
 - [10. 회고](#10-회고)
-- [11. 발표 자료](#11-발표-자료)
-- [12. 참고 자료](#12-참고-자료)
-- [License](#license)
+- [11. 참고 자료](#11-참고-자료)
 
+---
 
 ## 팀 구성원
 
@@ -382,13 +387,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## 11. 발표 자료
-
-- [프로젝트 발표 슬라이드](https://docs.google.com/presentation/d/1n3ZpdBC2U84vmS9k6mGyuqrokve7uZQvnuWrouwvFv4/)
-
----
-
-## 12. 참고 자료
+## 11. 참고 자료
 
 ### 논문
 
@@ -408,6 +407,6 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## License
+## Acknowledgement
 
-본 프로젝트는 Upstage AI Lab 14기 교육 과정의 일환으로 진행되었습니다.
+본 프로젝트는 Upstage AI Lab 14기 교육 과정의 일환으로 진행되었으며, 팀원들의 협업과 피드백을 통해 완성되었습니다.

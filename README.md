@@ -1,8 +1,8 @@
 # Dialogue Summarization
 
-이 프로젝트는 일상 대화 요약 대회 참가에 사용된 솔루션으로, 컴퓨터 비전 딥러닝 기술들을 효과적으로 조합하 최고 성능을 달성했습니다. 
+이 프로젝트는 일상 대화 요약 대회 참가를 위해 구축한 자연어 처리(NLP) 솔루션입니다. 다양한 Encoder-Decoder(T5/KoBART)와 Decoder-only(LLM) 아키텍처를 실험해 보았으며, 데이터 전처리·증강, 토픽 정보 활용, QLoRA 기반 미세조정으로 성능을 끌어올렸습니다.
 
-특히, 모델의 일반화 성능을 극대화하고 최종 예측 정확도를 끌어올리기 위한 앙상블 및 스태킹 기법에 중점을 두어 개발되었습니다.
+특히 긴 대화 처리와 반복 억제를 위한 하이퍼파라미터 튜닝, 한국어 특화 모델 채택, 재현 가능한 실험 구조 설계를 통해 정확하고 간결한 요약을 목표로 개발되었습니다.
 
 > **발표 자료:** [Google Slides](https://docs.google.com/presentation/d/1n3ZpdBC2U84vmS9k6mGyuqrokve7uZQvnuWrouwvFv4/)
 

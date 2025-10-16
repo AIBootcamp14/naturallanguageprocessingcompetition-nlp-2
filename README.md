@@ -11,6 +11,8 @@
 - [4. 데이터 전처리](#4-데이터-전처리)
 - [5. 데이터 증강](#5-데이터-증강)
 - [6. 파이프라인별 모델링 및 실험 결과](#6-파이프라인별-모델링-및-실험-결과)
+  - [6-1. Pipeline 1: Encoder-Decoder Architecture](#6-1-pipeline-1-encoder-decoder-architecture)
+  - [6-2. Pipeline 2: Decoder-only Architecture (LLM)](#6-2-pipeline-2-decoder-only-architecture-llm)
 - [7. 리더보드](#7-리더보드)
 - [8. 실행 가이드](#8-실행-가이드)
 - [9. 회고](#9-회고)
@@ -23,6 +25,8 @@
 | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: |
 |            [![GitHub](https://img.shields.io/badge/GitHub-김장원👑-181717?style=&logo=github&logoColor=white)](https://github.com/jkim1209)          |            [![GitHub](https://img.shields.io/badge/GitHub-김영-181717?style=flat&logo=github&logoColor=white)](https://github.com/kimyoung9689)            |            [![GitHub](https://img.shields.io/badge/GitHub-문채린-181717?style=flat&logo=github&logoColor=white)](https://github.com/CHAERINMOON)             |            [![GitHub](https://img.shields.io/badge/GitHub-민병호-181717?style=flat&logo=github&logoColor=white)](https://github.com/BH-Min-lab)              |            [![GitHub](https://img.shields.io/badge/GitHub-이윤서-181717?style=flat&logo=github&logoColor=white)](https://github.com/riicoseo)              |          [![GitHub](https://img.shields.io/badge/GitHub-정민지-181717?style=flat&logo=github&logoColor=white)](https://github.com/mingg210)            |
 |                팀장, 데이터 전처리 · 증강 · LLM 모델링                   |                    데이터 전처리 · T5 모델링                           |                    데이터 전처리 · 모델링                               |                    EDA · LLM 모델링                        |                    데이터 전처리 · T5 모델링                         |                    데이터 전처리 · 모델링                               |
+
+---
 
 ## 0. Overview
 
@@ -64,6 +68,8 @@ $$
 - **CUDA**: 11.8+
 - **GPU**: NVIDIA RTX 3090 (24GB VRAM)
 
+---
+
 ## 1. 프로젝트 구조
 
 <details>
@@ -103,6 +109,8 @@ NLI-Dialogue-Summarization/
 
 각 파이프라인의 실행 방법은 해당 폴더의 README.md를 참고해주세요.
 
+---
+
 ## 2. 협업 방식
 
 - **협업 도구**: GitHub, Slack, Notion
@@ -110,6 +118,8 @@ NLI-Dialogue-Summarization/
 - **프로젝트 관리**: GitHub Projects를 활용한 일정 및 이슈 트래킹
 - **코드 공유**: GitHub을 통한 버전 관리 및 협업
 - **진행 상황 공유**: Slack을 통한 실시간 소통 및 팔로우업
+
+---
 
 ## 3. EDA
 
@@ -137,6 +147,8 @@ NLI-Dialogue-Summarization/
 <p align="center"><img src="https://github.com/user-attachments/assets/80a364de-b74f-4a1a-82ee-cffc4557376d" width="45%">
   <img src="https://github.com/user-attachments/assets/65bbc7d2-bafe-496a-b9d5-47bb8ce83321" width="45%"></p>
 
+---
+
 ## 4. 데이터 전처리
 
 ### 전처리 과정
@@ -160,6 +172,8 @@ NLI-Dialogue-Summarization/
 
 - **정보 손실 최소화**: Encoder와 Decoder의 길이 및 토큰 수를 충분히 확보하여 긴 대화의 핵심 정보 보존하는 것이 중요
 - **한국어 최적화**: 한국어 요약 태스크에 최적화된 모델 선택 (paust/pko-t5-large 등)  
+
+---
 
 ## 5. 데이터 증강
 
@@ -185,6 +199,8 @@ NLI-Dialogue-Summarization/
 - **방법**: Upstage Solar API를 이용해 주제(topic) 기반의 신규 대화 + 요약 쌍 생성  
 - **효과**: 데이터 부족 주제 보완 및 모델 학습 커버리지 확대  
 
+---
+
 ## 6. 파이프라인별 모델링 및 실험 결과
 
 본 프로젝트에서는 두 가지 아키텍처를 실험했습니다:
@@ -192,7 +208,7 @@ NLI-Dialogue-Summarization/
 - Encoder-Decoder Architecture
 - Decoder-only Architecture (LLM)
 
-### Pipeline 1: Encoder-Decoder Architecture
+### 6-1. Pipeline 1: Encoder-Decoder Architecture
 
 **사용 모델**: T5, KoBART, pko-t5-large
 
@@ -238,7 +254,7 @@ NLI-Dialogue-Summarization/
 
 ---
 
-### Pipeline 2: Decoder-only Architecture (LLM)
+### 6-2. Pipeline 2: Decoder-only Architecture (LLM)
 
 **사용 모델**: SOLAR 10.7B/22B, CLOVA X 1.5B, Qwen3 0.6B
 
@@ -285,6 +301,8 @@ NLI-Dialogue-Summarization/
 
 <p align="center"><img src="https://github.com/user-attachments/assets/b45f6d4a-d60a-465c-b4fe-b89b6097afc2" width="85%"></p>
 
+---
+
 ## 7. 리더보드
 
 ### 🏆 최종 리더보드 순위
@@ -312,6 +330,8 @@ NLI-Dialogue-Summarization/
    - 다양한 증강 기법으로 일반화 성능 향상 (Solar 10.7b)  
    - 특히 Paraphrase와 Speaker Swap이 효과적  
 
+---
+
 ## 8. 실행 가이드
 
 ### 공통 환경 설정
@@ -328,6 +348,8 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 ### 파이프라인별 실행
 
 각 파이프라인은 독립적으로 실행됩니다. 상세한 실행 방법은 각 폴더의 README.md를 참고하세요.
+
+---
 
 ## 9. 회고
 
@@ -353,9 +375,13 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 </details>
 
+---
+
 ## 10. 발표 자료
 
 - [프로젝트 발표 슬라이드](https://docs.google.com/presentation/d/1hOjNn1falm06sLyqFpfdF37SkP_zCUD_/)
+
+---
 
 ## 11. 참고 자료
 
@@ -374,6 +400,8 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 - [PEFT (Parameter-Efficient Fine-Tuning)](https://github.com/huggingface/peft)
 - [TRL (Transformer Reinforcement Learning)](https://github.com/huggingface/trl)
 - [BitsAndBytes](https://github.com/TimDettmers/bitsandbytes)
+
+---
 
 ## License
 

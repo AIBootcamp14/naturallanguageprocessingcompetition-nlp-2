@@ -2,14 +2,29 @@
 
 일상 대화를 바탕으로 요약문을 생성하는 NLP 경진대회 프로젝트
 
+## 📚 Table of Contents
+- [팀 구성원](#팀-구성원)
+- [0. Overview](#0-overview)
+- [1. 프로젝트 구조](#1-프로젝트-구조)
+- [2. 협업 방식](#2-협업-방식)
+- [3. EDA](#3-eda)
+- [4. 데이터 전처리](#4-데이터-전처리)
+- [5. 데이터 증강](#5-데이터-증강)
+- [6. 파이프라인별 모델링 및 실험 결과](#6-파이프라인별-모델링-및-실험-결과)
+- [7. 리더보드](#7-리더보드)
+- [8. 실행 가이드](#8-실행-가이드)
+- [9. 회고](#9-회고)
+- [10. 발표 자료](#10-발표-자료)
+- [11. 참고 자료](#11-참고-자료)
+
 ## 팀 구성원
 
 | ![김장원](https://avatars.githubusercontent.com/u/128503571?v=4&s=200) | ![김영](https://avatars.githubusercontent.com/u/213391898?v=4&s=200) | ![문채린](https://avatars.githubusercontent.com/u/213385368?s=200&u=199e83da989abfc5387e2b64c00751a77bb5c6cc&v=4) | ![민병호](https://avatars.githubusercontent.com/u/213389909?s=200&u=637057beaf59c03a304331ca2c5838c029195669&v=4) | ![이윤서](https://avatars.githubusercontent.com/u/77047118?s=200&v=4) | ![정민지](https://avatars.githubusercontent.com/u/208557619?s=200&v=4) |
 | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: | :--------------------------------------------------------------: |
 |            [![GitHub](https://img.shields.io/badge/GitHub-김장원👑-181717?style=&logo=github&logoColor=white)](https://github.com/jkim1209)          |            [![GitHub](https://img.shields.io/badge/GitHub-김영-181717?style=flat&logo=github&logoColor=white)](https://github.com/kimyoung9689)            |            [![GitHub](https://img.shields.io/badge/GitHub-문채린-181717?style=flat&logo=github&logoColor=white)](https://github.com/CHAERINMOON)             |            [![GitHub](https://img.shields.io/badge/GitHub-민병호-181717?style=flat&logo=github&logoColor=white)](https://github.com/BH-Min-lab)              |            [![GitHub](https://img.shields.io/badge/GitHub-이윤서-181717?style=flat&logo=github&logoColor=white)](https://github.com/riicoseo)              |          [![GitHub](https://img.shields.io/badge/GitHub-정민지-181717?style=flat&logo=github&logoColor=white)](https://github.com/mingg210)            |
-|                 데이터 전처리 · 증강 · LLM 모델링                   |                    데이터 전처리 · T5 모델링                           |                    데이터 전처리 · 모델링                               |                    EDA · LLM 모델링                        |                    데이터 전처리 · T5 모델링                         |                    데이터 전처리 · 모델링                               |
+|                팀장, 데이터 전처리 · 증강 · LLM 모델링                   |                    데이터 전처리 · T5 모델링                           |                    데이터 전처리 · 모델링                               |                    EDA · LLM 모델링                        |                    데이터 전처리 · T5 모델링                         |                    데이터 전처리 · 모델링                               |
 
-## 0. Overview  
+## 0. Overview
 
 ### 프로젝트 소개  
 
@@ -51,7 +66,13 @@ $$
 
 ## 1. 프로젝트 구조
 
-### 전체 디렉토리
+<details>
+<summary><b>📁 최상위 프로젝트 구조 보기</b></summary>
+
+<br>
+
+> 본 프로젝트는 5개의 독립적인 파이프라인으로 구성되어 있으며,  
+> 각 폴더는 서로 다른 모델 아키텍처를 기반으로 합니다.
 
 ```bash
 NLI-Dialogue-Summarization/
@@ -66,10 +87,11 @@ NLI-Dialogue-Summarization/
 ├── young_t5_basic/                 # 기본 T5 파이프라인
 └── yoon_t5_topic/                  # Topic 활용한 T5 파이프라인
 ```
+</details>
 
 ### 파이프라인 개요
 
-본 프로젝트는 **5개의 독립적인 파이프라인**으로 구성되어 있으며, 각 파이프라인은 서로 다른 모델과 접근 방식을 사용합니다.
+본 프로젝트는 5개의 독립적인 파이프라인으로 구성되어 있으며, 각 파이프라인은 서로 다른 모델과 접근 방식을 사용합니다.
 
 | 파이프라인 | 모델 아키텍처 | 주요 기법 | 주 담당자 | 상세 가이드 |
 |-----------|--------------|----------|--------|-----------|
@@ -93,27 +115,27 @@ NLI-Dialogue-Summarization/
 
 ### Train Dataset 분석
 
-<img width="1790" height="480" alt="eda_train_dialogue" src="https://github.com/user-attachments/assets/3a37878d-9ce7-4683-b4f0-6cffec98cb28" />
+<p align="center"><img src="https://github.com/user-attachments/assets/3a37878d-9ce7-4683-b4f0-6cffec98cb28" width="90%"></p>
 
-<img width="1703" height="480" alt="eda_train_summary" src="https://github.com/user-attachments/assets/3489dc7f-cbed-4904-9c43-f2466df89640" />
+<p align="center"><img src="https://github.com/user-attachments/assets/3489dc7f-cbed-4904-9c43-f2466df89640" width="90%"></p>
 
 ### Validation Dataset 분석
 
-<img width="1790" height="480" alt="eda_dev_dialogue" src="https://github.com/user-attachments/assets/89e046b4-ca4f-4767-ba70-788bed4a6f90" />
+<p align="center"><img src="https://github.com/user-attachments/assets/89e046b4-ca4f-4767-ba70-788bed4a6f90" width="90%"></p>
 
-<img width="1691" height="480" alt="eda_dev_summary" src="https://github.com/user-attachments/assets/b4f1a2de-67b7-4f5d-b3fe-6a182543e4c9" />
+<p align="center"><img src="https://github.com/user-attachments/assets/b4f1a2de-67b7-4f5d-b3fe-6a182543e4c9" width="90%"></p>
 
 ### Test Dataset 분석
 
-<img width="1790" height="480" alt="eda_test_dialogue" src="https://github.com/user-attachments/assets/962b4328-7edd-4cea-9c57-249dbeacb3ca" />
+<p align="center"><img src="https://github.com/user-attachments/assets/962b4328-7edd-4cea-9c57-249dbeacb3ca" width="90%"></p>
 
-<img width="500" height="490" alt="eda_dev_test_comp" src="https://github.com/user-attachments/assets/d6e4f6f7-4e6e-4bf9-8ffa-294a1378a769" />
+<p align="center"><img src="https://github.com/user-attachments/assets/d6e4f6f7-4e6e-4bf9-8ffa-294a1378a769" width="55%"></p>
+
 
 ### Topic 분석
 
-<img width="500" height="500" alt="eda_train_topic" src="https://github.com/user-attachments/assets/80a364de-b74f-4a1a-82ee-cffc4557376d" />
-
-<img width="500" height="500" alt="eda_dev_topic" src="https://github.com/user-attachments/assets/65bbc7d2-bafe-496a-b9d5-47bb8ce83321" />
+<p align="center"><img src="https://github.com/user-attachments/assets/80a364de-b74f-4a1a-82ee-cffc4557376d" width="45%">
+  <img src="https://github.com/user-attachments/assets/65bbc7d2-bafe-496a-b9d5-47bb8ce83321" width="45%"></p>
 
 ## 4. 데이터 전처리
 
@@ -124,7 +146,15 @@ NLI-Dialogue-Summarization/
 1. **노이즈 제거**: 특수문자, 반복 문자 정규화
 2. **토크나이징**: 모델별 토크나이저를 사용한 토큰화
 
-![preprocess](https://github.com/user-attachments/assets/5ab8936e-9f6f-4f38-90b6-12ecaa04845d)
+<div align="center">
+
+  <figure>
+    <img src="https://github.com/user-attachments/assets/5ab8936e-9f6f-4f38-90b6-12ecaa04845d" width="90%">
+    <br>
+    <figcaption>노이즈 제거 규칙</figcaption>
+  </figure>
+
+</div>
 
 ### 주요 인사이트
 
@@ -155,7 +185,7 @@ NLI-Dialogue-Summarization/
 - **방법**: Upstage Solar API를 이용해 주제(topic) 기반의 신규 대화 + 요약 쌍 생성  
 - **효과**: 데이터 부족 주제 보완 및 모델 학습 커버리지 확대  
 
-## 6. 모델링
+## 6. 파이프라인별 모델링 및 실험 결과
 
 본 프로젝트에서는 두 가지 아키텍처를 실험했습니다:
 
@@ -204,7 +234,7 @@ NLI-Dialogue-Summarization/
 
 ##### 결과물 예시
 
-<img width="953" height="535" alt="result_encoder_decoder" src="https://github.com/user-attachments/assets/fff480c9-5ae7-4fa1-8f9c-5c520dd55072" />
+<p align="center"><img src="https://github.com/user-attachments/assets/fff480c9-5ae7-4fa1-8f9c-5c520dd55072" width="85%"></p>
 
 ---
 
@@ -232,7 +262,7 @@ NLI-Dialogue-Summarization/
 
 문제: Tokenizer 길이 제약
 
-<img width="1500" height="900" alt="llm_token" src="https://github.com/user-attachments/assets/458c8c7d-885a-4936-8079-60b627ff0a81" />
+<p align="center"><img src="https://github.com/user-attachments/assets/458c8c7d-885a-4936-8079-60b627ff0a81" width="85%"></p>
 
 - **실험 환경**: LLM은 BART보다 훨씬 많은 토큰 처리 필요
 - **환경 제약**: GPU RTX 3090 (VRAM 24GB)
@@ -253,16 +283,15 @@ NLI-Dialogue-Summarization/
 
 ##### 결과물 예시
 
-<img width="953" height="535" alt="result_decoder_only" src="https://github.com/user-attachments/assets/b45f6d4a-d60a-465c-b4fe-b89b6097afc2" />
+<p align="center"><img src="https://github.com/user-attachments/assets/b45f6d4a-d60a-465c-b4fe-b89b6097afc2" width="85%"></p>
 
-## 7. 최종 결과
+## 7. 리더보드
 
-### 리더보드 순위
+### 🏆 최종 리더보드 순위
+![Rank 1](https://img.shields.io/badge/Leaderboard-Rank%201-gold)
+![Final Score 47.9550](https://img.shields.io/badge/Final%20Score-47.9550-blue)
 
-- ![Rank 1](https://img.shields.io/badge/Leaderboard-Rank%201-gold)
-- ![Macro F1 0.9692](https://img.shields.io/badge/Macro%20F1-0.9692-blue)
-
-<img width="981" height="262" alt="result" src="https://github.com/user-attachments/assets/7ba03161-ec41-48b8-8a57-8304eb437727" />
+<p align="center"><img src="https://github.com/user-attachments/assets/7ba03161-ec41-48b8-8a57-8304eb437727" width="80%"></p>
 
 ### 주요 인사이트
 
@@ -310,7 +339,8 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 - **QLoRA 활용**: 제한된 리소스에서 대규모 LLM Fine-tuning 성공
 - **Topic 정보 활용**: 주제 기반 요약의 성능 향상 입증
 
-### 회고
+<details>
+<summary><b>팀원 회고 보기 👇</b></summary>
 
 | 이름 | 소감 |
 |------|------|
@@ -321,7 +351,13 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 | **이윤서** | 실험 결과가 큰 점수 향상으로 이어지지 않아 아쉬웠지만, 시행착오 속에서도 모델이 점점 똑똑해지는 과정을 보는 게 즐거웠습니다. |
 | **정민지** | 초기 베이스라인에서 런타임·버전 이슈가 있었지만, 팀원들의 공유 덕분에 잘 마무리할 수 있었습니다. |
 
-## 10. 참고 자료
+</details>
+
+## 10. 발표 자료
+
+- [프로젝트 발표 슬라이드](https://docs.google.com/presentation/d/1hOjNn1falm06sLyqFpfdF37SkP_zCUD_/)
+
+## 11. 참고 자료
 
 ### 논문
 
@@ -338,10 +374,6 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 - [PEFT (Parameter-Efficient Fine-Tuning)](https://github.com/huggingface/peft)
 - [TRL (Transformer Reinforcement Learning)](https://github.com/huggingface/trl)
 - [BitsAndBytes](https://github.com/TimDettmers/bitsandbytes)
-
-### 발표 자료
-
-- [프로젝트 발표 슬라이드](https://docs.google.com/presentation/d/1hOjNn1falm06sLyqFpfdF37SkP_zCUD_/)
 
 ## License
 

@@ -14,10 +14,13 @@
   - [6-1. Pipeline 1: Encoder-Decoder Architecture](#6-1-pipeline-1-encoder-decoder-architecture)
   - [6-2. Pipeline 2: Decoder-only Architecture (LLM)](#6-2-pipeline-2-decoder-only-architecture-llm)
 - [7. 리더보드](#7-리더보드)
-- [8. 실행 가이드](#8-실행-가이드)
-- [9. 회고](#9-회고)
-- [10. 발표 자료](#10-발표-자료)
-- [11. 참고 자료](#11-참고-자료)
+- [8. 주요 인사이트](#8-주요-인사이트)
+- [9. 실행 가이드](#9-실행-가이드)
+- [10. 회고](#10-회고)
+- [11. 발표 자료](#11-발표-자료)
+- [12. 참고 자료](#12-참고-자료)
+- [License](#license)
+
 
 ## 팀 구성원
 
@@ -252,8 +255,6 @@ NLI-Dialogue-Summarization/
 
 <p align="center"><img src="https://github.com/user-attachments/assets/fff480c9-5ae7-4fa1-8f9c-5c520dd55072" width="85%"></p>
 
----
-
 ### 6-2. Pipeline 2: Decoder-only Architecture (LLM)
 
 **사용 모델**: SOLAR 10.7B/22B, CLOVA X 1.5B, Qwen3 0.6B
@@ -311,7 +312,9 @@ NLI-Dialogue-Summarization/
 
 <p align="center"><img src="https://github.com/user-attachments/assets/7ba03161-ec41-48b8-8a57-8304eb437727" width="80%"></p>
 
-### 주요 인사이트
+---
+
+## 8. 주요 인사이트
 
 1. **사전학습의 중요성**:
    - 한국어 특화 모델 중에서도 대화문 요약에 적합한 모델을 선택하는 것이 중요함  
@@ -332,7 +335,7 @@ NLI-Dialogue-Summarization/
 
 ---
 
-## 8. 실행 가이드
+## 9. 실행 가이드
 
 ### 공통 환경 설정
 
@@ -351,7 +354,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## 9. 회고
+## 10. 회고
 
 ### 목표 달성도
 
@@ -377,13 +380,13 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## 10. 발표 자료
+## 11. 발표 자료
 
 - [프로젝트 발표 슬라이드](https://docs.google.com/presentation/d/1hOjNn1falm06sLyqFpfdF37SkP_zCUD_/)
 
 ---
 
-## 11. 참고 자료
+## 12. 참고 자료
 
 ### 논문
 

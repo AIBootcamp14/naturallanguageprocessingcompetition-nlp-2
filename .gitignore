@@ -292,20 +292,35 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Project-specific ignores
 # Wandb
+*/wandb/
 wandb/*
 
-# models
+# Models
 *.pt
+model/*
 
-# csv files
+# CSV files
 *.csv
 
-# zipfiles
+# Zip files
 *.tar.gz
 *.zip
 
-# baseline code
+# Baseline code
+baseline/*
 baseline.ipynb
+code/*
+
+# Training checkpoints
+checkpoint-*
+
+# Logs and outputs
+./logs
+./prediction/
+
+# Data augmentation note (from llm_qlora_general_jw)
+data_augmentation_and_pretraining.md
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks,visualstudiocode,windows,macos,linux,git

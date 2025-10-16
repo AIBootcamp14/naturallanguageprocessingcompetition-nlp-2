@@ -1,0 +1,46 @@
+﻿data:
+  root: .
+  train_file: data/train.csv
+  dev_file: data/dev.csv
+  test_file: data/test.csv
+  sample_submission: data/sample_submission.csv
+
+inference:
+  batch_size: 8
+  mode: model
+
+output:
+  submission_csv: output/submission/clovax_submission.csv
+  detailed_csv: output/model/clovax_generations.csv
+
+model:
+  model_id: upstage/solar-pro-preview-instruct
+  quant: 4bit
+  dtype: fp16
+  attn: sdpa
+  device: cuda:0
+  offline: false
+  max_memory_gb: 23
+
+generation:
+  max_new_tokens: 120
+  min_new_tokens: 20
+  temperature: 1.0
+  top_p: 1.0
+  do_sample: false          # greedy decoding
+  repetition_penalty: 1.1
+  no_repeat_ngram_size: 3
+
+prompt:
+  system: ""  # 시스템 메시지 제거 (단순화)
+  
+  user_template: |
+    다음 대화를 대화 길이의 20% 정도로 요약하세요. 대화에 나온 단어를 최대한 활용하세요.
+    
+    {dialogue}
+    
+    요약:
+
+logging:
+  level: INFO
+  use_tqdm: true

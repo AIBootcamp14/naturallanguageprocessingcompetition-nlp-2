@@ -29,17 +29,17 @@
 
 - **언어**: Python 3.10
 - **주요 라이브러리**:
-  - PyTorch 2.x (CUDA 11.8+)
-  - Transformers 4.x (Hugging Face)
-  - PEFT (Parameter-Efficient Fine-Tuning)
-  - TRL (Transformer Reinforcement Learning)
-  - BitsAndBytes (양자화)
-- **도구**:
-  - Weights & Biases (실험 트래킹)
-  - Pandas, NumPy (데이터 처리)
-  - ROUGE (평가 지표)
+  - PyTorch 2.8.0 (CUDA 11.8+)
+  - Transformers 4.57.0 (Hugging Face)
+  - PEFT 0.17.1 (Parameter-Efficient Fine-Tuning)
+  - TRL 0.23.1 (Transformer Reinforcement Learning)
+  - BitsAndBytes 0.48.1 (양자화)
+  - Pandas 2.1.4
+  - NumPy 1.23.5
+  - ROUGE 1.0.1 (평가 지표)
+- **트래킹 도구**: Weights & Biases (실험 트래킹)
 - **버전 관리**: Git / GitHub
-- **협업 도구**: GitHub Issues, Notion
+- **협업 도구**: GitHub, Notion
 
 ## 파이프라인 구조
 

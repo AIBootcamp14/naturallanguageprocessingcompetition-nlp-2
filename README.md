@@ -26,8 +26,9 @@
 - **평가 지표**: ROUGE (ROUGE-1, ROUGE-2, ROUGE-L의 F1 Score 평균)
 
 $$
-\text{Final Score} = \frac{ \text{ROUGE-1\_F1} + \text{ROUGE-2\_F1} + \text{ROUGE-L\_F1} }{3}
+\text{Final Score} = \frac{ \text{ROUGE-1\\_F1} + \text{ROUGE-2\\_F1} + \text{ROUGE-L\\_F1} }{3}
 $$
+
 
 - **목표**:
   - 다양한 데이터 증강 기법 시도
@@ -92,19 +93,27 @@ NLI-Dialogue-Summarization/
 
 ### Train Dataset 분석
 
-<!-- TODO: 발표자료 11페이지 이미지 추가 -->
+<img width="1790" height="480" alt="eda_train_dialogue" src="https://github.com/user-attachments/assets/3a37878d-9ce7-4683-b4f0-6cffec98cb28" />
+
+<img width="1703" height="480" alt="eda_train_summary" src="https://github.com/user-attachments/assets/3489dc7f-cbed-4904-9c43-f2466df89640" />
 
 ### Validation Dataset 분석
 
-<!-- TODO: 발표자료 12페이지 이미지 추가 -->
+<img width="1790" height="480" alt="eda_dev_dialogue" src="https://github.com/user-attachments/assets/89e046b4-ca4f-4767-ba70-788bed4a6f90" />
+
+<img width="1691" height="480" alt="eda_dev_summary" src="https://github.com/user-attachments/assets/b4f1a2de-67b7-4f5d-b3fe-6a182543e4c9" />
 
 ### Test Dataset 분석
 
-<!-- TODO: 발표자료 13페이지 이미지 추가 -->
+<img width="1790" height="480" alt="eda_test_dialogue" src="https://github.com/user-attachments/assets/962b4328-7edd-4cea-9c57-249dbeacb3ca" />
+
+<img width="500" height="490" alt="eda_dev_test_comp" src="https://github.com/user-attachments/assets/d6e4f6f7-4e6e-4bf9-8ffa-294a1378a769" />
 
 ### Topic 분석
 
-<!-- TODO: 발표자료 14페이지 이미지 추가 -->
+<img width="500" height="500" alt="eda_train_topic" src="https://github.com/user-attachments/assets/80a364de-b74f-4a1a-82ee-cffc4557376d" />
+
+<img width="500" height="500" alt="eda_dev_topic" src="https://github.com/user-attachments/assets/65bbc7d2-bafe-496a-b9d5-47bb8ce83321" />
 
 ## 4. 데이터 전처리
 
@@ -112,9 +121,10 @@ NLI-Dialogue-Summarization/
 
 주요 공통 전처리 단계:
 
-1. **불용어 처리**: 대화문에서 불필요한 단어 제거
-2. **노이즈 제거**: 특수문자, 반복 문자 정규화
-3. **토크나이징**: 모델별 토크나이저를 사용한 토큰화
+1. **노이즈 제거**: 특수문자, 반복 문자 정규화
+2. **토크나이징**: 모델별 토크나이저를 사용한 토큰화
+
+![preprocess](https://github.com/user-attachments/assets/5ab8936e-9f6f-4f38-90b6-12ecaa04845d)
 
 ### 주요 인사이트
 
@@ -182,9 +192,9 @@ NLI-Dialogue-Summarization/
 | **공예품 쇼핑** | #Person1#은 중국의 손재주를 보고 싶어합니다. #Person2#는 독특한 중국식으로 운반이 쉬운 종이 공예품, 자수, 바틱을 추천합니다. | #Person2#는 중국의 손재주가 뛰어난 <span style="color:red">공예품</span>을 사려고 합니다. #Person1#은 독특한 중국식이면서 운반이 쉬운 종이 공예품, 자수, 바틱을 추천합니다. |
 | **알레르기 식단** | Sue는 Bill의 생일 파티에 케이크를 가져오지 못해 아쉬워한다. Bill은 Sue에게 샐러드를 가져다주고, Sue가 좋아하는 뜨거운 스프를 가져다주겠다고 제안한다. | Sue는 Bill에게 자신의 생일 파티에 케이크를 가져오라고 제안한다. Bill은 <span style="color:red">알레르기 식단 관리</span>를 위해 특정 음식을 피하고 있으며, Sue가 가져온 샌드위치도 먹지 못했다. |
 
-→ Topic 정보를 포함하면 **핵심 맥락과 "왜"**를 더 정확하게 설명
+→ Topic 정보를 포함하면 **핵심 맥락과 "왜"** 를 더 정확하게 설명
 
-#### 결과
+#### 실험 결과
 
 | Model      | 출력 길이 · 형태 제어 | 탐색 강도 | 반복 억제 · 제약 | Topic 포함여부 | Rouge-1 | Rouge-2 | Rouge-L | Final  |
 |-------------|------------------------|------------|------------------|----------------|----------|----------|----------|--------|
@@ -192,7 +202,9 @@ NLI-Dialogue-Summarization/
 | **T5** | length_penalty: 1.2 <br> repetition_penalty: 1.2 | num_beams: 6 | no_repeat_ngram_size: 4 | O | 0.5731 | 0.3642 | 0.4850 | 47.4114 |
 | **KoBART** | decoder_max_len: 1024 <br> encoder_max_len: 1024 | num_beams: 6 | no_repeat_ngram_size: 3 | X | 0.5478 | 0.3447 | 0.4578 | 45.0112 |
 
-<!-- TODO: 발표자료 22-23페이지 결과 차트 이미지 추가 -->
+##### 결과물 예시
+
+<img width="953" height="535" alt="result_encoder_decoder" src="https://github.com/user-attachments/assets/fff480c9-5ae7-4fa1-8f9c-5c520dd55072" />
 
 ---
 
@@ -220,7 +232,7 @@ NLI-Dialogue-Summarization/
 
 문제: Tokenizer 길이 제약
 
-<!-- 그림추가 -->
+<img width="1500" height="900" alt="llm_token" src="https://github.com/user-attachments/assets/458c8c7d-885a-4936-8079-60b627ff0a81" />
 
 - **실험 환경**: LLM은 BART보다 훨씬 많은 토큰 처리 필요
 - **환경 제약**: GPU RTX 3090 (VRAM 24GB)
@@ -230,7 +242,7 @@ NLI-Dialogue-Summarization/
   - Gradient accumulation으로 효과적인 배치 크기 확보
 - **한계**: 성능 향상은 제한적이었으나, OOM 방지하며 학습 완료
 
-#### 결과
+#### 실험 결과
 
 | Model      | Size  | Fine-tuning | Prompt Setting | Rouge-1 | Rouge-2 | Rouge-L | Final  |
 |-------------|-------|--------------|----------------|----------|----------|----------|--------|
@@ -239,7 +251,9 @@ NLI-Dialogue-Summarization/
 | **Qwen3** | 0.6B | QLoRA | Zero-shot | 0.3547 | 0.1261 | 0.2879 | 25.6237 |
 | **CLOVA X** | 1.5B | X | Zero-shot | 0.4021 | 0.1712 | 0.3129 | 29.5404 |
 
-<!-- TODO: 발표자료 28-29페이지 결과 차트 이미지 추가 -->
+##### 결과물 예시
+
+<img width="953" height="535" alt="result_decoder_only" src="https://github.com/user-attachments/assets/b45f6d4a-d60a-465c-b4fe-b89b6097afc2" />
 
 ## 7. 최종 결과
 
@@ -248,7 +262,7 @@ NLI-Dialogue-Summarization/
 - ![Rank 1](https://img.shields.io/badge/Leaderboard-Rank%201-gold)
 - ![Macro F1 0.9692](https://img.shields.io/badge/Macro%20F1-0.9692-blue)
 
-<!-- TODO: 경진대회 결과 이미지 추가 -->
+<img width="981" height="262" alt="result" src="https://github.com/user-attachments/assets/7ba03161-ec41-48b8-8a57-8304eb437727" />
 
 ### 주요 인사이트
 
@@ -300,7 +314,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 | 이름 | 소감 |
 |------|------|
-| **김장원** | LLM 파인튜닝을 처음 경험하며 거대 언어 모델이 데이터의 뉘앙스와 표현 방식을 어떻게 학습해 내는지 직접 확인할 수 있었습니다. 또한 QLoRA와 같은 효율적인 파인튜닝 기법을 실제 프로젝트에 적용하며 그 원리를 체감하였으며, 결과물의 품질을 결정짓는 프롬프트 설계의 중요성을 깨닫는 계기가 되었습니다. |
+| **김장원** | LLM 파인튜닝을 처음 경험하며 거대 언어 모델이 데이터의 뉘앙스와 표현 방식을 어떻게 학습해 내는지 직접 확인할 수 있었습니다. <br> 또한 QLoRA와 같은 효율적인 파인튜닝 기법을 실제 프로젝트에 적용하며 그 원리를 체감하였으며, <br> 결과물의 품질을 결정짓는 프롬프트 설계의 중요성을 깨닫는 계기가 되었습니다. |
 | **김영** | 학습과 추론에 시간을 많이 쓰게 되어 시도해보지 못한 부분들에 대한 아쉬움이 살짝 남는 거 같습니다. |
 | **문채린** | 직접 실험하고 수정하면서 자연어 처리의 흐름을 익힐 수 있었고 제출 결과값은 아쉬웠지만 이번에도 많이 배웠습니다. |
 | **민병호** | 자연어 처리에 대한 어려움과 LLM의 가능성에 대해 다시 한 번 느낄 수 있던 계기가 되었습니다. |

@@ -1,6 +1,12 @@
 # Dialogue Summarization
 
-일상 대화를 바탕으로 요약문을 생성하는 NLP 경진대회 프로젝트
+이 프로젝트는 일상 대화 요약 대회 참가를 위해 구축한 자연어 처리(NLP) 솔루션입니다. 다양한 Encoder-Decoder(T5/KoBART)와 Decoder-only(LLM) 아키텍처를 실험해 보았으며, 데이터 전처리·증강, 토픽 정보 활용, QLoRA 기반 미세조정으로 성능을 끌어올렸습니다.
+
+특히 긴 대화 처리와 반복 억제를 위한 하이퍼파라미터 튜닝, 한국어 특화 모델 채택, 재현 가능한 실험 구조 설계를 통해 정확하고 간결한 요약을 목표로 개발되었습니다.
+
+> **발표 자료:** [Google Slides](https://docs.google.com/presentation/d/1n3ZpdBC2U84vmS9k6mGyuqrokve7uZQvnuWrouwvFv4/)
+
+---
 
 ## 📚 Table of Contents
 - [팀 구성원](#팀-구성원)
@@ -17,10 +23,9 @@
 - [8. 주요 인사이트](#8-주요-인사이트)
 - [9. 실행 가이드](#9-실행-가이드)
 - [10. 회고](#10-회고)
-- [11. 발표 자료](#11-발표-자료)
-- [12. 참고 자료](#12-참고-자료)
-- [License](#license)
+- [11. 참고 자료](#11-참고-자료)
 
+---
 
 ## 팀 구성원
 
@@ -382,13 +387,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## 11. 발표 자료
-
-- [프로젝트 발표 슬라이드](https://docs.google.com/presentation/d/1hOjNn1falm06sLyqFpfdF37SkP_zCUD_/)
-
----
-
-## 12. 참고 자료
+## 11. 참고 자료
 
 ### 논문
 
@@ -408,6 +407,6 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ---
 
-## License
+## Acknowledgement
 
-본 프로젝트는 Upstage AI Lab 14기 교육 과정의 일환으로 진행되었습니다.
+본 프로젝트는 Upstage AI Lab 14기 교육 과정의 일환으로 진행되었으며, 팀원들의 협업과 피드백을 통해 완성되었습니다.
